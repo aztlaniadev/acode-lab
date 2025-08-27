@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Post as PostType } from '@/types/social';
-import { Post } from './Post';
+import { Post } from '@/components/social/Post';
 
 interface FeedProps {
   posts: PostType[];
