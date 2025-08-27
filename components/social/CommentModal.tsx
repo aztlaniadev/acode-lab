@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import { X } from 'lucide-react';
 import { Post as PostType } from '@/types/social';
 
@@ -42,10 +43,12 @@ export const CommentModal = ({ isOpen, onClose, post, onAddComment }: CommentMod
           ) : (
             post.commentsData.map(comment => (
               <div key={comment.id} className="flex items-start space-x-3 mb-4">
-                <img 
+                <Image 
                   src={`https://i.pravatar.cc/150?u=${comment.username}`} 
                   className="w-8 h-8 rounded-full" 
-                  alt={comment.username} 
+                  alt={comment.username}
+                  width={32}
+                  height={32}
                 />
                 <div className="flex-1">
                   <p className="text-sm text-muted-foreground">
@@ -59,10 +62,12 @@ export const CommentModal = ({ isOpen, onClose, post, onAddComment }: CommentMod
 
         {/* Form para novo comentário */}
         <form onSubmit={handleSubmit} className="mt-4 flex items-center border-t border-border pt-4">
-          <img 
+          <Image 
             src={`https://i.pravatar.cc/150?u=seu_story`} 
             className="w-8 h-8 rounded-full" 
-            alt="seu avatar" 
+            alt="seu avatar"
+            width={32}
+            height={32}
           />
           <input 
             type="text" 

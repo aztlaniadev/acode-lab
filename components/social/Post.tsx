@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, PlayCircle, Share2, BookmarkPlus } from 'lucide-react';
 import { Post as PostType } from '@/types/social';
 
@@ -33,14 +34,12 @@ export const Post = ({ post, onCommentClick, onShareClick }: PostProps) => {
       {/* Header do post */}
       <div className="flex items-center p-3">
         <div className="relative">
-          <img 
+          <Image 
             className="w-10 h-10 rounded-xl border-2 border-border/50 shadow-md" 
-            src={post.avatar} 
-            alt={post.username} 
-            onError={(e) => { 
-              e.target.onerror = null; 
-              e.target.src = 'https://placehold.co/150x150/e2e8f0/e2e8f0?text= ' 
-            }}
+            src={post.avatar || 'https://placehold.co/150x150/e2e8f0/e2e8f0?text= '} 
+            alt={post.username}
+            width={40}
+            height={40}
           />
           <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-gradient-to-r from-success to-accent rounded-full border-2 border-background"></div>
         </div>
@@ -57,14 +56,12 @@ export const Post = ({ post, onCommentClick, onShareClick }: PostProps) => {
 
       {/* Conteúdo do post */}
       <div className="relative bg-gradient-to-br from-muted/30 to-muted/50 mx-3 rounded-xl overflow-hidden">
-        <img 
+        <Image 
           className="w-full object-cover transition-transform duration-500 group-hover:scale-105" 
-          src={post.contentUrl} 
-          alt={`Post by ${post.username}`} 
-          onError={(e) => { 
-            e.target.onerror = null; 
-            e.target.src = 'https://placehold.co/600x400/e2e8f0/e2e8f0?text=Image+Not+Found' 
-          }}
+          src={post.contentUrl || 'https://placehold.co/600x400/e2e8f0/e2e8f0?text=Image+Not+Found'} 
+          alt={`Post by ${post.username}`}
+          width={600}
+          height={400}
         />
         
         {/* Overlay para reels */}

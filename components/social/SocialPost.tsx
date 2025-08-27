@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -144,11 +145,13 @@ export const SocialPost: React.FC<SocialPostProps> = ({
             {post.images && post.images.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {post.images.map((image, index) => (
-                  <img
+                  <Image
                     key={index}
                     src={image}
                     alt={`Imagem ${index + 1}`}
                     className="w-full h-48 object-cover rounded-lg"
+                    width={400}
+                    height={192}
                   />
                 ))}
               </div>
@@ -164,10 +167,12 @@ export const SocialPost: React.FC<SocialPostProps> = ({
               <div className="border rounded-lg p-3 hover:border-primary/50 transition-colors">
                 <div className="flex space-x-3">
                   {post.link.image && (
-                    <img
+                    <Image
                       src={post.link.image}
-                      alt={post.link.title}
+                      alt={post.link.title || 'Link preview'}
                       className="w-20 h-20 object-cover rounded"
+                      width={80}
+                      height={80}
                     />
                   )}
                   <div className="flex-1 min-w-0">

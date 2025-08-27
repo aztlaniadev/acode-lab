@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Question, UserLevel } from '@/types/forum'
+import { Question, UserLevel, QuestionStatus } from '@/types/forum'
 
 interface QuestionDetailProps {
   questionId: string
@@ -30,6 +30,9 @@ interface QuestionDetailProps {
 const mockQuestion: Question = {
   id: '1',
   title: 'Como implementar autenticação JWT em Next.js 14?',
+  slug: 'como-implementar-autenticacao-jwt-nextjs-14',
+  status: QuestionStatus.ANSWERED,
+  isFeatured: false,
   content: `Estou desenvolvendo uma aplicação Next.js 14 e preciso implementar autenticação JWT. 
 
 **Contexto:**
@@ -68,6 +71,7 @@ Alguém pode me ajudar com um exemplo completo de implementação JWT em Next.js
 Obrigado desde já! 🚀`,
   author: {
     id: 'user-1',
+    username: 'joao_silva',
     name: 'João Silva',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Joao',
     reputation: 1250,
@@ -89,12 +93,19 @@ Obrigado desde já! 🚀`,
     { id: 'tag-4', name: 'TypeScript', description: 'Superset JavaScript', color: '#3178C6', questionsCount: 345, slug: 'typescript', createdAt: new Date(), updatedAt: new Date(), isPopular: true, isNew: false }
   ],
   votes: [
-    { id: 'vote-1', userId: 'user-2', targetId: '1', targetType: 'question', value: 1, createdAt: new Date() },
-    { id: 'vote-2', userId: 'user-3', targetId: '1', targetType: 'question', value: 1, createdAt: new Date() }
+    { id: 'vote-1', userId: 'user-2', questionId: '1', value: 1, createdAt: new Date() },
+    { id: 'vote-2', userId: 'user-3', questionId: '1', value: 1, createdAt: new Date() }
   ],
-  answersCount: 3,
-  viewsCount: 89,
+  _count: {
+    answers: 3,
+    comments: 5,
+    votes: 2
+  },
+  viewCount: 89,
   isSolved: false,
+  upvotesCount: 2,
+  downvotesCount: 0,
+  score: 2,
   createdAt: new Date('2024-08-20T10:30:00'),
   updatedAt: new Date('2024-08-20T10:30:00')
 }
@@ -133,7 +144,7 @@ export function QuestionDetail({ questionId }: QuestionDetailProps) {
   }
 
   // Calcular votos totais
-  const totalVotes = question.votes.reduce((sum, vote) => sum + vote.value, 0)
+  const totalVotes = question.votes?.reduce((sum, vote) => sum + vote.value, 0) || 0
 
   const handleVote = (voteValue: 1 | -1) => {
     if (userVote === voteValue) {
@@ -242,11 +253,11 @@ export function QuestionDetail({ questionId }: QuestionDetailProps) {
               <div className="flex items-center gap-6 text-sm text-muted-foreground pt-4 border-t border-border">
                 <div className="flex items-center gap-1">
                   <MessageSquare className="w-4 h-4" />
-                  <span>{question.answersCount} respostas</span>
+                  <span>{question._count?.answers || 0} respostas</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Eye className="w-4 h-4" />
-                  <span>{question.viewsCount} visualizações</span>
+                  <span>{question.viewCount} visualizações</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Clock className="w-4 h-4" />
@@ -295,9 +306,9 @@ export function QuestionDetail({ questionId }: QuestionDetailProps) {
               <div className="bg-muted/50 rounded-lg p-4">
                 <div className="flex items-center gap-3">
                   <Avatar className="w-12 h-12">
-                    <AvatarImage src={question.author.avatar} alt={question.author.name} />
+                    <AvatarImage src={question.author.avatar || undefined} alt={question.author.name || undefined} />
                     <AvatarFallback>
-                      {question.author.name.charAt(0).toUpperCase()}
+                      {(question.author.name || question.author.username).charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   
@@ -315,9 +326,7 @@ export function QuestionDetail({ questionId }: QuestionDetailProps) {
                     </div>
                     <div className="text-sm text-muted-foreground">
                       Reputação: {question.author.reputation} • 
-                      {question.author.questionsCount} perguntas • 
-                      {question.author.answersCount} respostas • 
-                      Membro desde {new Date(question.author.joinDate).toLocaleDateString('pt-BR')}
+                      Nível: {question.author.level}
                     </div>
                   </div>
 

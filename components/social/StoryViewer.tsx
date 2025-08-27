@@ -38,7 +38,7 @@ export const StoryViewer = ({ user, onClose, onNextUser, onPrevUser }: StoryView
     if (isPaused || !user) return;
     const timer = setTimeout(goToNextStory, STORY_DURATION);
     return () => clearTimeout(timer);
-  }, [currentIndex, user, isPaused]);
+  }, [currentIndex, user, isPaused, goToNextStory]);
   
   const handleInteractionStart = () => setIsPaused(true);
   const handleInteractionEnd = () => setIsPaused(false);
