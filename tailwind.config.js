@@ -16,6 +16,36 @@ module.exports = {
       },
     },
     extend: {
+      // Copper Design System Colors
+      colors: {
+        copper: {
+          50: '#fef7f0',
+          100: '#feeee0',
+          200: '#fcd4b6',
+          300: '#f9b885',
+          400: '#f59e4c',
+          500: '#dc7633',
+          600: '#c0622d',
+          700: '#a14d24',
+          800: '#83401e',
+          900: '#6d341a',
+          950: '#3b1a0c'
+        },
+        neutral: {
+          0: '#ffffff',
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#a3a3a3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0a0a0a'
+        }
+      },
       colors: {
         // 🎨 Cores Base do Acode Lab - Profissionais e Minimalistas
         border: "hsl(var(--border))",

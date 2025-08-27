@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
-import { Header } from '@/components/navigation/Header'
+import { CopperThemeProvider } from '@/lib/copper-theme'
+import { CopperHeader } from '@/components/navigation/CopperHeader'
 import { SessionProvider } from '@/components/providers/SessionProvider'
-import { ThemeProvider } from '@/lib/theme-engine'
 
 const inter = Inter({ subsets: ['latin'] })
+const playfair = Playfair_Display({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Acode Lab - Plataforma de Desenvolvimento Colaborativo',
@@ -70,15 +71,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
-      <body className={inter.className}>
-        <ThemeProvider>
+      <body className={`${inter.className} copper-theme light`}>
+        <CopperThemeProvider>
           <SessionProvider>
-            <Header />
-            <div className="min-h-screen bg-background pt-16">
+            <CopperHeader />
+            <div className="min-h-screen">
               {children}
             </div>
           </SessionProvider>
-        </ThemeProvider>
+        </CopperThemeProvider>
       </body>
     </html>
   )
