@@ -1,0 +1,634 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Usuário
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  name          String
+  password      String
+  avatar        String?
+  bio           String?
+  location      String?
+  website       String?
+  github        String?
+  linkedin      String?
+  twitter       String?
+  reputation    Int       @default(0)
+  level         UserLevel @default(BEGINNER)
+  isVerified    Boolean   @default(false)
+  isBanned     Boolean   @default(false)
+  
+  // Campos para 2FA
+  totpSecret    String?  // Segredo TOTP base32
+  totpEnabled   Boolean  @default(false)  // Se 2FA está ativado
+  totpBackupCodes String[] // Códigos de backup (hasheados)
+  totpLastUsed  DateTime? // Último uso do 2FA
+  
+  // Campos de segurança
+  loginAttempts Int      @default(0)  // Tentativas de login
+  lastLoginAttempt DateTime? // Última tentativa de login
+  lockedUntil    DateTime? // Bloqueio temporário
+  passwordChangedAt DateTime? // Última mudança de senha
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relacionamentos
+  questions     Question[]
+  answers       Answer[]
+  comments      Comment[]
+  votes         Vote[]
+  badges       UserBadge[]
+  followers    Follow[]   @relation("UserFollowers")
+  following    Follow[]   @relation("UserFollowing")
+  notifications Notification[]
+  
+  // Rede Social
+  socialPosts  SocialPost[]
+  socialComments SocialComment[]
+  socialLikes  SocialLike[]
+  socialShares SocialShare[]
+  connections  Connection[] @relation("ConnectionRequester")
+  connectedTo  Connection[] @relation("ConnectionRecipient")
+  userProfile  UserProfile?
+  
+  // Relacionamentos adicionais da rede social
+  socialMentions SocialMention[]
+  groupMembers GroupMember[]
+  pollVotes PollVote[]
+  eventAttendees EventAttendee[]
+
+  @@map("users")
+}
+
+// Níveis de usuário
+enum UserLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+  MASTER
+}
+
+// Modelo de Badge
+model Badge {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  icon        String
+  color       String
+  criteria    String
+  createdAt   DateTime    @default(now())
+
+  // Relacionamentos
+  users       UserBadge[]
+
+  @@map("badges")
+}
+
+// Relacionamento muitos-para-muitos entre User e Badge
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  earnedAt  DateTime @default(now())
+
+  // Relacionamentos
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
+
+// Modelo de Categoria
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String
+  icon        String
+  color       String
+  isActive    Boolean   @default(true)
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relacionamentos
+  questions   Question[]
+
+  @@map("categories")
+}
+
+// Modelo de Tag
+model Tag {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  color       String
+  isPopular   Boolean   @default(false)
+  isNew       Boolean   @default(false)
+  usageCount  Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relacionamentos
+  questions   QuestionTag[]
+
+  @@map("tags")
+}
+
+// Modelo de Pergunta
+model Question {
+  id          String        @id @default(cuid())
+  title       String
+  content     String
+  slug        String        @unique
+  status      QuestionStatus @default(OPEN)
+  isFeatured  Boolean       @default(false)
+  isSolved    Boolean       @default(false)
+  viewCount   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relacionamentos
+  authorId    String
+  author      User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  tags        QuestionTag[]
+  answers     Answer[]
+  comments    Comment[]
+  votes       Vote[]
+
+  @@map("questions")
+}
+
+// Status da pergunta
+enum QuestionStatus {
+  OPEN
+  CLOSED
+  DUPLICATE
+  OFF_TOPIC
+  TOO_BROAD
+  OPINION_BASED
+  SOLVED
+  ANSWERED
+  UNANSWERED
+}
+
+// Relacionamento muitos-para-muitos entre Question e Tag
+model QuestionTag {
+  id         String   @id @default(cuid())
+  questionId String
+  tagId      String
+
+  // Relacionamentos
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, tagId])
+  @@map("question_tags")
+}
+
+// Modelo de Resposta
+model Answer {
+  id          String   @id @default(cuid())
+  content     String
+  isAccepted  Boolean  @default(false)
+  isBest      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  questionId  String
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  votes       Vote[]
+
+  @@map("answers")
+}
+
+// Modelo de Comentário
+model Comment {
+  id         String      @id @default(cuid())
+  content    String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  // Relacionamentos
+  authorId   String
+  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  questionId String?
+  question   Question?   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answerId   String?
+  answer     Answer?     @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  parentId   String?
+  parent     Comment?    @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies    Comment[]   @relation("CommentReplies")
+  votes      Vote[]
+
+  @@map("comments")
+}
+
+// Modelo de Voto
+model Vote {
+  id         String   @id @default(cuid())
+  value      Int      // 1 para upvote, -1 para downvote
+  createdAt  DateTime @default(now())
+
+  // Relacionamentos
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId String?
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answerId   String?
+  answer     Answer?   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  commentId  String?
+  comment    Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId, answerId, commentId])
+  @@map("votes")
+}
+
+// Modelo de Follow (para rede social)
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  // Relacionamentos
+  follower   User     @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following  User     @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+// Modelo de Notificação
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false)
+  data      Json?
+  createdAt DateTime         @default(now())
+
+  // Relacionamentos
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+// Tipos de notificação
+enum NotificationType {
+  QUESTION_ANSWERED
+  ANSWER_ACCEPTED
+  COMMENT_ADDED
+  VOTE_RECEIVED
+  BADGE_EARNED
+  FOLLOW_RECEIVED
+  MENTION
+  SYSTEM
+}
+
+// ===== MODELOS DA REDE SOCIAL =====
+
+// Perfil do usuário para rede social
+model UserProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  displayName String
+  bio         String?  @db.Text
+  coverImage  String?
+  skills      String[]
+  experience  String?  @db.Text
+  education   String?  @db.Text
+  company     String?
+  jobTitle    String?
+  location    String?
+  timezone    String?
+  isAvailable Boolean  @default(true)
+  hourlyRate  Decimal? @db.Decimal(10, 2)
+  portfolio   String[]
+  socialLinks Json?    // LinkedIn, GitHub, Twitter, etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+// Posts da rede social
+model SocialPost {
+  id          String      @id @default(cuid())
+  authorId    String
+  content     String      @db.Text
+  type        SocialPostType
+  tags        String[]
+  isPublic    Boolean     @default(true)
+  visibility  Visibility  @default(PUBLIC)
+  viewCount   Int         @default(0)
+  likeCount   Int         @default(0)
+  commentCount Int        @default(0)
+  shareCount  Int         @default(0)
+  isPinned    Boolean     @default(false)
+  isEdited    Boolean     @default(false)
+  editedAt    DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relacionamentos
+  author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    SocialComment[]
+  likes       SocialLike[]
+  shares      SocialShare[]
+  mentions    SocialMention[]
+  poll        SocialPoll?
+  groupPosts  GroupPost[]
+
+  @@map("social_posts")
+}
+
+// Tipos de post social
+enum SocialPostType {
+  TEXT
+  CODE
+  LINK
+  POLL
+  ACHIEVEMENT
+  PROJECT
+  QUESTION
+  TIP
+  NEWS
+  EVENT
+}
+
+// Visibilidade do post
+enum Visibility {
+  PUBLIC
+  CONNECTIONS
+  FOLLOWERS
+  PRIVATE
+}
+
+// Comentários em posts sociais
+model SocialComment {
+  id         String      @id @default(cuid())
+  postId     String
+  authorId   String
+  content    String      @db.Text
+  parentId   String?     // Para respostas aninhadas
+  isEdited   Boolean     @default(false)
+  editedAt   DateTime?
+  likeCount  Int         @default(0)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  // Relacionamentos
+  post       SocialPost  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent     SocialComment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies    SocialComment[] @relation("CommentReplies")
+  likes      SocialLike[]
+
+  @@map("social_comments")
+}
+
+// Likes em posts e comentários sociais
+model SocialLike {
+  id         String   @id @default(cuid())
+  userId     String
+  postId     String?
+  commentId  String?
+  createdAt  DateTime @default(now())
+
+  // Relacionamentos
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post       SocialPost? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment    SocialComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId, commentId])
+  @@map("social_likes")
+}
+
+// Compartilhamentos de posts
+model SocialShare {
+  id         String   @id @default(cuid())
+  postId     String
+  userId     String
+  platform   String?  // Facebook, Twitter, LinkedIn, etc.
+  message    String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  // Relacionamentos
+  post       SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("social_shares")
+}
+
+// Menções de usuários em posts
+model SocialMention {
+  id         String   @id @default(cuid())
+  postId     String
+  userId     String
+  createdAt  DateTime @default(now())
+
+  // Relacionamentos
+  post       SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("social_mentions")
+}
+
+// Conexões entre usuários (rede social)
+model Connection {
+  id           String           @id @default(cuid())
+  requesterId  String
+  recipientId  String
+  status       ConnectionStatus
+  message      String?          @db.Text
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  // Relacionamentos
+  requester    User             @relation("ConnectionRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  recipient    User             @relation("ConnectionRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@unique([requesterId, recipientId])
+  @@map("connections")
+}
+
+// Status da conexão
+enum ConnectionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  BLOCKED
+}
+
+// Grupos da comunidade
+model CommunityGroup {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+  avatar      String?
+  coverImage  String?
+  isPrivate   Boolean  @default(false)
+  isVerified  Boolean  @default(false)
+  memberCount Int      @default(0)
+  postCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  members     GroupMember[]
+  posts      GroupPost[]
+
+  @@map("community_groups")
+}
+
+// Membros de grupos
+model GroupMember {
+  id        String        @id @default(cuid())
+  groupId   String
+  userId    String
+  role      GroupRole     @default(MEMBER)
+  joinedAt  DateTime      @default(now())
+  isActive  Boolean       @default(true)
+
+  // Relacionamentos
+  group     CommunityGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@map("group_members")
+}
+
+// Roles em grupos
+enum GroupRole {
+  OWNER
+  ADMIN
+  MODERATOR
+  MEMBER
+}
+
+// Posts em grupos
+model GroupPost {
+  id        String      @id @default(cuid())
+  groupId   String
+  postId    String
+  createdAt DateTime    @default(now())
+
+  // Relacionamentos
+  group     CommunityGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  post      SocialPost     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, postId])
+  @@map("group_posts")
+}
+
+// Enquetes sociais
+model SocialPoll {
+  id          String        @id @default(cuid())
+  postId      String        @unique
+  question    String
+  options     Json          // Array de opções
+  isMultiple  Boolean       @default(false)
+  endsAt      DateTime?
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relacionamentos
+  post        SocialPost    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  votes       PollVote[]
+
+  @@map("social_polls")
+}
+
+// Votos em enquetes
+model PollVote {
+  id         String      @id @default(cuid())
+  pollId     String
+  userId     String
+  option     Int         // Índice da opção escolhida
+  createdAt  DateTime    @default(now())
+
+  // Relacionamentos
+  poll       SocialPoll  @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, userId])
+  @@map("poll_votes")
+}
+
+// Eventos da comunidade
+model CommunityEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  startDate   DateTime
+  endDate     DateTime
+  location    String?
+  isOnline    Boolean  @default(false)
+  meetingUrl  String?
+  maxAttendees Int?
+  isPublic    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  attendees   EventAttendee[]
+
+  @@map("community_events")
+}
+
+// Participantes de eventos
+model EventAttendee {
+  id        String          @id @default(cuid())
+  eventId   String
+  userId    String
+  status    AttendanceStatus
+  joinedAt  DateTime        @default(now())
+
+  // Relacionamentos
+  event     CommunityEvent  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@map("event_attendees")
+}
+
+// Status de participação
+enum AttendanceStatus {
+  GOING
+  MAYBE
+  NOT_GOING
+  INTERESTED
+}

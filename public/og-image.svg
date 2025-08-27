@@ -1,0 +1,12 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#1F2937"/>
+  <rect x="100" y="150" width="1000" height="80" rx="8" fill="#3B82F6"/>
+  <text x="600" y="200" text-anchor="middle" fill="white" font-size="48" font-weight="bold" font-family="Arial, sans-serif">ACODE LAB</text>
+  <text x="600" y="250" text-anchor="middle" fill="#9CA3AF" font-size="24" font-family="Arial, sans-serif">Plataforma de Desenvolvimento Colaborativo</text>
+  <rect x="100" y="300" width="300" height="200" rx="8" fill="#10B981"/>
+  <text x="250" y="400" text-anchor="middle" fill="white" font-size="20" font-weight="bold" font-family="Arial, sans-serif">FÓRUM</text>
+  <rect x="450" y="300" width="300" height="200" rx="8" fill="#F59E0B"/>
+  <text x="600" y="400" text-anchor="middle" fill="white" font-size="20" font-weight="bold" font-family="Arial, sans-serif">REDE SOCIAL</text>
+  <rect x="800" y="300" width="300" height="200" rx="8" fill="#8B5CF6"/>
+  <text x="950" y="400" text-anchor="middle" fill="white" font-size="20" font-weight="bold" font-family="Arial, sans-serif">FREELANCER</text>
+</svg>

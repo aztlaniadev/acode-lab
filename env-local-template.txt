@@ -1,0 +1,31 @@
+# Configuração de Segurança - Acode Lab
+
+# Database
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/acode_lab"
+
+# NextAuth.js - Chaves Secretas Fortes
+NEXTAUTH_SECRET="acode-lab-super-secret-key-2024-production-ready-64-chars-long"
+NEXTAUTH_URL="http://localhost:3000"
+
+# Environment
+NODE_ENV="development"
+
+# Prisma
+PRISMA_GENERATE_DATAPROXY=true
+
+# Segurança Adicional
+JWT_SECRET="jwt-secret-key-2024-production-ready-64-chars-long"
+COOKIE_SECRET="cookie-secret-key-2024-production-ready-64-chars-long"
+
+# Redis (para rate limiting distribuído)
+REDIS_URL="redis://localhost:6379"
+
+# 2FA (TOTP)
+TOTP_ISSUER="Acode Lab"
+TOTP_ALGORITHM="sha1"
+TOTP_DIGITS=6
+TOTP_PERIOD=30
+
+# Monitoramento de Segurança 
+SECURITY_LOG_LEVEL="info"
+SECURITY_ALERT_EMAIL="security@acodelab.com"

@@ -1,0 +1,355 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 🎨 PALETA DE CORES ACODE LAB - PROFISSIONAL E MINIMALISTA */
+    
+    /* Cores Base - Neutros Profissionais */
+    --background: 0 0% 100%;
+    --foreground: 220 13% 18%;
+    
+    /* Cores Primárias - Azul Sutil (Confiança) */
+    --primary: 220 13% 18%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 220 13% 25%;
+    --primary-dark: 220 13% 12%;
+    
+    /* Cores Secundárias - Cinza Azulado (Profissionalismo) */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 13% 18%;
+    --secondary-light: 220 14% 98%;
+    --secondary-dark: 220 14% 90%;
+    
+    /* Cores de Acento - Azul Sutil (Destaque) */
+    --accent: 210 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 210 100% 60%;
+    --accent-dark: 210 100% 40%;
+    
+    /* Cores de Sucesso/Erro - Sutis */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 220 13% 18%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Cores de Interface - Neutros Elegantes */
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 18%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 210 100% 50%;
+    
+    /* Cores da Marca - Sutil */
+    --brand: 220 13% 18%;
+    --brand-foreground: 0 0% 100%;
+    --brand-gradient: linear-gradient(135deg, hsl(220 13% 18%), hsl(210 100% 50%));
+    
+    /* Cores de Status - Neutros */
+    --status-online: 142 71% 45%;
+    --status-busy: 38 92% 50%;
+    --status-offline: 220 9% 46%;
+    
+    /* Cores de Nível - Gradiente Sutil */
+    --level-beginner: 220 9% 46%;
+    --level-intermediate: 220 13% 18%;
+    --level-advanced: 210 100% 50%;
+    --level-expert: 220 13% 12%;
+    --level-master: 220 13% 8%;
+    
+    /* Bordas e Sombras - Suaves */
+    --radius: 0.375rem;
+    --radius-card: 0.5rem;
+    --radius-ele: 0.25rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  }
+
+  .dark {
+    /* 🌙 MODO ESCURO - Profissional */
+    
+    /* Cores Base - Escuras mas Elegantes */
+    --background: 220 13% 18%;
+    --foreground: 220 14% 96%;
+    
+    /* Cores Primárias - Branco Sutil */
+    --primary: 220 14% 96%;
+    --primary-foreground: 220 13% 18%;
+    --primary-light: 0 0% 100%;
+    --primary-dark: 220 14% 90%;
+    
+    /* Cores Secundárias - Cinza Escuro */
+    --secondary: 220 13% 25%;
+    --secondary-foreground: 220 14% 96%;
+    --secondary-light: 220 13% 30%;
+    --secondary-dark: 220 13% 20%;
+    
+    /* Cores de Acento - Azul Sutil */
+    --accent: 210 100% 50%;
+    --accent-foreground: 220 13% 18%;
+    --accent-light: 210 100% 60%;
+    --accent-dark: 210 100% 40%;
+    
+    /* Cores de Sucesso/Erro */
+    --success: 142 71% 45%;
+    --success-foreground: 220 13% 18%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 220 13% 18%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 13% 18%;
+    
+    /* Cores de Interface - Escuras */
+    --card: 220 13% 25%;
+    --card-foreground: 220 14% 96%;
+    --popover: 220 13% 25%;
+    --popover-foreground: 220 14% 96%;
+    --muted: 220 13% 25%;
+    --muted-foreground: 220 9% 65%;
+    --border: 220 13% 25%;
+    --input: 220 13% 25%;
+    --ring: 210 100% 50%;
+    
+    /* Cores da Marca */
+    --brand: 220 14% 96%;
+    --brand-foreground: 220 13% 18%;
+    --brand-gradient: linear-gradient(135deg, hsl(220 14% 96%), hsl(210 100% 50%));
+    
+    /* Cores de Status */
+    --status-online: 142 71% 45%;
+    --status-busy: 38 92% 50%;
+    --status-offline: 220 9% 65%;
+    
+    /* Cores de Nível */
+    --level-beginner: 220 9% 65%;
+    --level-intermediate: 220 14% 96%;
+    --level-advanced: 210 100% 50%;
+    --level-expert: 220 14% 90%;
+    --level-master: 0 0% 100%;
+    
+    /* Bordas e Sombras */
+    --radius: 0.375rem;
+    --radius-card: 0.5rem;
+    --radius-ele: 0.25rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* 🎨 COMPONENTES DE CORES PROFISSIONAIS */
+  
+  /* Texto com Gradiente Sutil */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+  
+  .gradient-text-primary {
+    @apply bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent;
+  }
+  
+  .gradient-text-subtle {
+    @apply bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent;
+  }
+  
+  /* Efeitos de Vidro - Profissionais */
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/5 border border-white/10;
+  }
+  
+  .glass-effect-dark {
+    @apply backdrop-blur-md bg-black/5 border border-black/10;
+  }
+  
+  /* Cards e Hover - Elegantes */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5;
+  }
+  
+  .card-hover-primary {
+    @apply transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 hover:border-primary/20;
+  }
+  
+  /* Botões - Hierarquia Sutil */
+  .button-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-light transition-all duration-200 shadow-sm;
+  }
+  
+  .button-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary-light transition-all duration-200 shadow-sm;
+  }
+  
+  .button-accent {
+    @apply bg-accent text-accent-foreground hover:bg-accent-light transition-all duration-200 shadow-sm;
+  }
+  
+  .button-outline {
+    @apply border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200;
+  }
+  
+  .button-ghost {
+    @apply text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-200;
+  }
+  
+  /* Status e Níveis - Sutis */
+  .status-online { @apply text-status-online; }
+  .status-busy { @apply text-status-busy; }
+  .status-offline { @apply text-status-offline; }
+  
+  .level-beginner { @apply text-level-beginner; }
+  .level-intermediate { @apply text-level-intermediate; }
+  .level-advanced { @apply text-level-advanced; }
+  .level-expert { @apply text-level-expert; }
+  .level-master { @apply text-level-master; }
+  
+  /* Gradientes de Fundo - Sutis */
+  .bg-gradient-primary {
+    @apply bg-gradient-to-br from-primary to-primary-light;
+  }
+  
+  .bg-gradient-subtle {
+    @apply bg-gradient-to-br from-background to-secondary;
+  }
+  
+  .bg-gradient-brand {
+    background: var(--brand-gradient);
+  }
+  
+  /* Classes Específicas para Fórum - Profissionais */
+  .forum-question {
+    @apply bg-card border border-border rounded-card shadow-sm hover:shadow-md transition-all duration-200;
+  }
+  
+  .forum-answer {
+    @apply bg-card border border-border rounded-card shadow-sm;
+  }
+  
+  .forum-tag {
+    @apply bg-secondary text-secondary-foreground border border-border rounded-ele px-2 py-1 text-sm;
+  }
+  
+  .forum-category {
+    @apply bg-primary/5 text-primary border border-primary/20 rounded-ele px-3 py-2;
+  }
+  
+  /* Classes para Rede Social - Elegantes */
+  .social-post {
+    @apply bg-card border border-border rounded-card shadow-sm hover:shadow-md transition-all duration-200;
+  }
+  
+  .social-interaction {
+    @apply text-muted-foreground hover:text-foreground transition-colors duration-200;
+  }
+  
+  /* Classes para Freelancer - Profissionais */
+  .freelancer-card {
+    @apply bg-card border border-border rounded-card shadow-sm hover:shadow-md transition-all duration-200;
+  }
+  
+  .freelancer-skill {
+    @apply bg-secondary text-secondary-foreground border border-border rounded-ele px-2 py-1 text-sm;
+  }
+  
+  .freelancer-rating {
+    @apply text-warning;
+  }
+  
+  /* Classes Utilitárias - Minimalistas */
+  .text-muted { @apply text-muted-foreground; }
+  .bg-muted { @apply bg-secondary; }
+  .border-muted { @apply border-border; }
+  
+  /* Hover States - Sutis */
+  .hover-lift {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-200 hover:shadow-md;
+  }
+}
+
+/* Estilos para o background de vídeo */
+.video-background-controls {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.video-indicator {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.video-indicator:hover {
+  transform: scale(1.2);
+}
+
+.video-loading {
+  animation: video-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes video-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Melhorias para o texto sobre vídeo */
+.video-text-shadow {
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    0 4px 8px rgba(0, 0, 0, 0.6),
+    0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.video-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Animações suaves para transições de vídeo */
+.video-transition {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.video-fade-in {
+  animation: videoFadeIn 0.8s ease-out;
+}
+
+@keyframes videoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+# CONFIGURAÇÕES TEMPORÁRIAS - COPIE PARA .env.local
+
+# Database
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/acode_lab"
+
+# NextAuth.js
+NEXTAUTH_SECRET="acode-lab-secret-key-2024-development-environment"
+NEXTAUTH_URL="http://localhost:3000"
+
+# Environment
+NODE_ENV="development"
+
+# Prisma
+PRISMA_GENERATE_DATAPROXY=true
