@@ -59,8 +59,9 @@ export const StoriesTray = ({ stories, onStoryClick }: StoriesTrayProps) => {
                 src={user.avatar} 
                 alt={user.username} 
                 onError={(e) => { 
-                  e.target.onerror = null; 
-                  e.target.src = 'https://placehold.co/150x150/e2e8f0/e2e8f0?text= ' 
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null; 
+                  target.src = 'https://placehold.co/150x150/e2e8f0/e2e8f0?text= ' 
                 }}
               />
               
