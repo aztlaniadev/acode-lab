@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/navigation/Header'
 import { SessionProvider } from '@/components/providers/SessionProvider'
+import { ThemeProvider } from '@/lib/theme-engine'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -70,12 +71,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <body className={inter.className}>
-        <SessionProvider>
-          <Header />
-          <div className="min-h-screen bg-background pt-16">
-            {children}
-          </div>
-        </SessionProvider>
+        <ThemeProvider>
+          <SessionProvider>
+            <Header />
+            <div className="min-h-screen bg-background pt-16">
+              {children}
+            </div>
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
