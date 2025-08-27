@@ -139,6 +139,17 @@ const STREAM_CATEGORIES = [
   'Culinária', 'Viagem', 'Lifestyle', 'Negócios', 'Ciência', 'Outros'
 ]
 
+// Helper functions
+const getBadgeIcon = (badge: string) => {
+  switch (badge) {
+    case 'subscriber': return <Crown className="w-3 h-3 text-purple-500" />
+    case 'verified': return <Star className="w-3 h-3 text-blue-500" />
+    case 'mod': return <Award className="w-3 h-3 text-green-500" />
+    case 'follower': return <Heart className="w-3 h-3 text-red-500" />
+    default: return null
+  }
+}
+
 export const LiveStreamingCenter: React.FC = () => {
   const [activeTab, setActiveTab] = useState('discover')
   const [isStreaming, setIsStreaming] = useState(false)
@@ -334,15 +345,7 @@ export const LiveStreamingCenter: React.FC = () => {
     return `${minutes}:${secs.toString().padStart(2, '0')}`
   }
 
-  const getBadgeIcon = (badge: string) => {
-    switch (badge) {
-      case 'subscriber': return <Crown className="w-3 h-3 text-purple-500" />
-      case 'verified': return <Star className="w-3 h-3 text-blue-500" />
-      case 'mod': return <Award className="w-3 h-3 text-green-500" />
-      case 'follower': return <Heart className="w-3 h-3 text-red-500" />
-      default: return null
-    }
-  }
+
 
   const handleSendMessage = () => {
     if (chatMessage.trim()) {
@@ -971,6 +974,11 @@ const LiveStudioInterface: React.FC<{
   setChatMessage,
   onSendMessage
 }) => {
+  const chatEndRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [chatMessages])
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
       {/* Main Stream View */}

@@ -474,10 +474,15 @@ export const useThemeBuilder = () => {
     layout: { ...DEFAULT_THEMES['default-light'].layout }
   })
 
-  const updateBuilderTheme = (section: keyof CustomTheme, updates: any) => {
+  const updateBuilderTheme = <K extends keyof Omit<CustomTheme, 'id'>>(
+    section: K, 
+    updates: Partial<Omit<CustomTheme, 'id'>[K]>
+  ) => {
     setBuilderTheme(prev => ({
       ...prev,
-      [section]: { ...prev[section as keyof typeof prev], ...updates }
+      [section]: typeof prev[section] === 'object' 
+        ? { ...(prev[section] as Record<string, any>), ...updates }
+        : updates
     }))
   }
 

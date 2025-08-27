@@ -253,9 +253,9 @@ export const ThemeCustomizer: React.FC = () => {
                   placeholder="Nome do tema..."
                   className="max-w-xs"
                 />
-                <Select 
+                                <Select
                   value={builderTheme.type}
-                  onValueChange={(value) => updateBuilderTheme('type', value)}
+                  onValueChange={(value: 'light' | 'dark' | 'auto') => updateBuilderTheme('type', value)}
                 >
                   <SelectTrigger className="max-w-xs">
                     <SelectValue />
@@ -344,7 +344,7 @@ export const ThemeCustomizer: React.FC = () => {
                       <Label>Tamanho da Fonte</Label>
                       <Select
                         value={builderTheme.typography.fontSize}
-                        onValueChange={(value) => 
+                        onValueChange={(value: 'small' | 'medium' | 'large') => 
                           updateBuilderTheme('typography', { fontSize: value })
                         }
                       >
@@ -363,7 +363,7 @@ export const ThemeCustomizer: React.FC = () => {
                       <Label>Peso da Fonte</Label>
                       <Select
                         value={builderTheme.typography.fontWeight}
-                        onValueChange={(value) => 
+                        onValueChange={(value: 'light' | 'normal' | 'medium' | 'bold') => 
                           updateBuilderTheme('typography', { fontWeight: value })
                         }
                       >
@@ -417,7 +417,7 @@ export const ThemeCustomizer: React.FC = () => {
                       <Label>Raio da Borda</Label>
                       <Select
                         value={builderTheme.effects.borderRadius}
-                        onValueChange={(value) => 
+                        onValueChange={(value: 'none' | 'small' | 'medium' | 'large') => 
                           updateBuilderTheme('effects', { borderRadius: value })
                         }
                       >
@@ -441,7 +441,7 @@ export const ThemeCustomizer: React.FC = () => {
                       <Label>Densidade</Label>
                       <Select
                         value={builderTheme.layout.density}
-                        onValueChange={(value) => 
+                        onValueChange={(value: 'compact' | 'comfortable' | 'spacious') => 
                           updateBuilderTheme('layout', { density: value })
                         }
                       >
@@ -460,7 +460,7 @@ export const ThemeCustomizer: React.FC = () => {
                       <Label>Sidebar</Label>
                       <Select
                         value={builderTheme.layout.sidebar}
-                        onValueChange={(value) => 
+                        onValueChange={(value: 'collapsed' | 'expanded' | 'auto') => 
                           updateBuilderTheme('layout', { sidebar: value })
                         }
                       >
@@ -479,7 +479,7 @@ export const ThemeCustomizer: React.FC = () => {
                       <Label>Estilo do Header</Label>
                       <Select
                         value={builderTheme.layout.headerStyle}
-                        onValueChange={(value) => 
+                        onValueChange={(value: 'floating' | 'sticky' | 'static') => 
                           updateBuilderTheme('layout', { headerStyle: value })
                         }
                       >

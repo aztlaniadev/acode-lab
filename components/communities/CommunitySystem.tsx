@@ -98,6 +98,47 @@ const COMMUNITY_CATEGORIES = [
   'Culinária', 'Viagem', 'Fotografia', 'Literatura', 'Outros'
 ]
 
+// Helper functions
+const getRoleIcon = (role: string) => {
+  switch (role) {
+    case 'owner': return <Crown className="w-4 h-4 text-yellow-500" />
+    case 'admin': return <Shield className="w-4 h-4 text-red-500" />
+    case 'moderator': return <Shield className="w-4 h-4 text-blue-500" />
+    default: return null
+  }
+}
+
+const getRoleBadge = (role: string) => {
+  const roleColors = {
+    owner: 'bg-yellow-100 text-yellow-800',
+    admin: 'bg-red-100 text-red-800',
+    moderator: 'bg-blue-100 text-blue-800',
+    member: 'bg-gray-100 text-gray-800'
+  }
+  
+  const roleNames = {
+    owner: 'Criador',
+    admin: 'Admin',
+    moderator: 'Moderador',
+    member: 'Membro'
+  }
+
+  return (
+    <Badge className={roleColors[role as keyof typeof roleColors]}>
+      {roleNames[role as keyof typeof roleNames]}
+    </Badge>
+  )
+}
+
+const getTypeIcon = (type: string) => {
+  switch (type) {
+    case 'public': return <Globe className="w-4 h-4" />
+    case 'private': return <Lock className="w-4 h-4" />
+    case 'secret': return <Eye className="w-4 h-4" />
+    default: return <Globe className="w-4 h-4" />
+  }
+}
+
 export const CommunitySystem: React.FC = () => {
   const [activeTab, setActiveTab] = useState('discover')
   const [searchQuery, setSearchQuery] = useState('')
@@ -266,45 +307,7 @@ export const CommunitySystem: React.FC = () => {
     return matchesSearch && matchesCategory
   })
 
-  const getRoleIcon = (role: string) => {
-    switch (role) {
-      case 'owner': return <Crown className="w-4 h-4 text-yellow-500" />
-      case 'admin': return <Shield className="w-4 h-4 text-red-500" />
-      case 'moderator': return <Shield className="w-4 h-4 text-blue-500" />
-      default: return null
-    }
-  }
 
-  const getRoleBadge = (role: string) => {
-    const roleColors = {
-      owner: 'bg-yellow-100 text-yellow-800',
-      admin: 'bg-red-100 text-red-800',
-      moderator: 'bg-blue-100 text-blue-800',
-      member: 'bg-gray-100 text-gray-800'
-    }
-    
-    const roleNames = {
-      owner: 'Criador',
-      admin: 'Admin',
-      moderator: 'Moderador',
-      member: 'Membro'
-    }
-
-    return (
-      <Badge className={roleColors[role as keyof typeof roleColors]}>
-        {roleNames[role as keyof typeof roleNames]}
-      </Badge>
-    )
-  }
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'public': return <Globe className="w-4 h-4" />
-      case 'private': return <Lock className="w-4 h-4" />
-      case 'secret': return <Eye className="w-4 h-4" />
-      default: return <Globe className="w-4 h-4" />
-    }
-  }
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">

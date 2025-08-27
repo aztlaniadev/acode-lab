@@ -202,8 +202,8 @@ export const AdvancedProfileCustomization: React.FC = () => {
   const updateProfile = (section: keyof ProfileCustomization, updates: any) => {
     setProfile(prev => ({
       ...prev,
-      [section]: typeof updates === 'object' && !Array.isArray(updates)
-        ? { ...prev[section as keyof typeof prev], ...updates }
+      [section]: typeof updates === 'object' && !Array.isArray(updates) && prev[section] && typeof prev[section] === 'object'
+        ? { ...(prev[section] as Record<string, any>), ...updates }
         : updates
     }))
   }

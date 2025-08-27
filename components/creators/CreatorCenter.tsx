@@ -43,7 +43,9 @@ import {
   Upload,
   Play,
   Pause,
-  MoreHorizontal
+  MoreHorizontal,
+  Plus,
+  Search
 } from 'lucide-react'
 
 interface CreatorProfile {
