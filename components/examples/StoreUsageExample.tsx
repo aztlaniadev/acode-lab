@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect } from 'react'
+import Image from 'next/image'
 import { useAuth, useForum, useUI, useRealtime } from '@/lib/hooks/useStore'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -156,10 +157,12 @@ export const StoreUsageExample: React.FC = () => {
               {isAuthenticated ? (
                 <>
                   <div className="flex items-center gap-2">
-                    <img 
-                      src={user?.avatar} 
+                    <Image 
+                      src={user?.avatar || '/placeholder-avatar.png'} 
                       alt="Avatar" 
                       className="w-8 h-8 rounded-full"
+                      width={32}
+                      height={32}
                     />
                     <span>{user?.displayName}</span>
                     {isAdmin && <Badge variant="destructive">Admin</Badge>}

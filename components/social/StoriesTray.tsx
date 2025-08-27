@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { User } from '@/types/social';
 import { Plus, Play } from 'lucide-react';
 
@@ -54,15 +55,12 @@ export const StoriesTray = ({ stories, onStoryClick }: StoriesTrayProps) => {
                   : 'bg-gradient-to-br from-accent via-primary to-accent shadow-xl hover:shadow-2xl'
               )
             }`}>
-              <img 
+              <Image 
                 className="w-full h-full rounded-3xl border-2 border-background object-cover" 
-                src={user.avatar} 
-                alt={user.username} 
-                onError={(e) => { 
-                  const target = e.target as HTMLImageElement;
-                  target.onerror = null; 
-                  target.src = 'https://placehold.co/150x150/e2e8f0/e2e8f0?text= ' 
-                }}
+                src={user.avatar || 'https://placehold.co/150x150/e2e8f0/e2e8f0?text= '} 
+                alt={user.username}
+                width={80}
+                height={80}
               />
               
               {/* Indicador de tipo de story */}

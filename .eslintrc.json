@@ -5,7 +5,7 @@
   "rules": {
     "prefer-const": "error",
     "no-var": "error",
-    "no-console": "warn",
+    "no-console": "off",
     "eqeqeq": ["error", "always"],
     "curly": "off",
     "no-multiple-empty-lines": "off",

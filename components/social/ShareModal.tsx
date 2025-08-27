@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { X, Copy, Share2, MessageCircle, Mail, Link, Facebook, Twitter, Instagram } from 'lucide-react';
 import { Post } from '@/types/social';
 
@@ -87,10 +88,12 @@ export const ShareModal = ({ isOpen, onClose, post }: ShareModalProps) => {
         {/* Preview do Post */}
         <div className="mb-6 p-4 bg-muted/30 rounded-2xl border border-border/30">
           <div className="flex items-center space-x-3 mb-3">
-            <img
+            <Image
               src={post.avatar}
               alt={post.username}
               className="w-10 h-10 rounded-full border-2 border-border/50"
+              width={40}
+              height={40}
             />
             <div>
               <p className="font-medium text-foreground">{post.username}</p>
