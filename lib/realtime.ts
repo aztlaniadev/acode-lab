@@ -486,7 +486,7 @@ export const useRealTimeEvent = <T = any>(
     })
     
     return unsubscribe
-  }, [eventType, ...deps])
+  }, [eventType, callback, manager, ...deps])
 }
 
 export const usePresence = (roomId?: string) => {
@@ -523,7 +523,7 @@ export const usePresence = (roomId?: string) => {
         manager.leaveRoom(roomId)
       }
     }
-  }, [roomId])
+  }, [roomId, manager])
   
   const updatePresence = useCallback((data: any) => {
     manager.updatePresence(data)

@@ -315,6 +315,23 @@ export const PresenceIndicator = ({
     return () => clearInterval(interval)
   }, [updatePresence])
 
+  // Sound effects
+  const playJoinSound = useCallback(() => {
+    if (!soundEnabled) return
+    // Play join sound
+    const audio = new Audio('/sounds/user-join.mp3')
+    audio.volume = 0.1
+    audio.play().catch(() => {})
+  }, [soundEnabled])
+
+  const playLeaveSound = useCallback(() => {
+    if (!soundEnabled) return
+    // Play leave sound
+    const audio = new Audio('/sounds/user-leave.mp3')
+    audio.volume = 0.1
+    audio.play().catch(() => {})
+  }, [soundEnabled])
+
   // Handle user join/leave events
   useRealTimeEvent<{ userId: string; user: User }>('user:join', useCallback((data) => {
     setUsers(prev => ({
@@ -325,7 +342,7 @@ export const PresenceIndicator = ({
     if (soundEnabled) {
       playJoinSound()
     }
-  }, [soundEnabled]), [soundEnabled])
+  }, [soundEnabled, playJoinSound]), [soundEnabled, playJoinSound])
 
   useRealTimeEvent<{ userId: string }>('user:leave', useCallback((data) => {
     setUsers(prev => {
@@ -337,7 +354,7 @@ export const PresenceIndicator = ({
     if (soundEnabled) {
       playLeaveSound()
     }
-  }, [soundEnabled]), [soundEnabled])
+  }, [soundEnabled, playLeaveSound]), [soundEnabled, playLeaveSound])
 
   // Handle typing events
   useRealTimeEvent<{ userId: string; userName: string }>('typing:start', useCallback((data) => {
@@ -387,23 +404,6 @@ export const PresenceIndicator = ({
     
     return 'desktop'
   }
-
-  // Sound effects
-  const playJoinSound = useCallback(() => {
-    if (!soundEnabled) return
-    // Play join sound
-    const audio = new Audio('/sounds/user-join.mp3')
-    audio.volume = 0.1
-    audio.play().catch(() => {})
-  }, [soundEnabled])
-
-  const playLeaveSound = useCallback(() => {
-    if (!soundEnabled) return
-    // Play leave sound
-    const audio = new Audio('/sounds/user-leave.mp3')
-    audio.volume = 0.1
-    audio.play().catch(() => {})
-  }, [soundEnabled])
 
   // Filter and sort users
   const userList = Object.values(users)

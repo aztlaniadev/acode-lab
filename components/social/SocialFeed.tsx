@@ -42,7 +42,7 @@ export const SocialFeed = () => {
   // Adicionar estilos CSS para animações
   useEffect(() => {
     const style = document.createElement('style');
-    style.innerHTML = `
+    style.textContent = `
       @keyframes progress-bar { 
         from { width: 0%; } 
         to { width: 100%; } 

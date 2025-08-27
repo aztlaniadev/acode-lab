@@ -101,19 +101,6 @@ export const RealTimeNotifications = ({
     }
   }, [])
 
-  // Handle real-time notification events
-  useRealTimeEvent<Notification>('notification:new', useCallback((notification) => {
-    addNotification(notification)
-  }, []), [])
-
-  useRealTimeEvent('notification:read', useCallback((data: { notificationId: string }) => {
-    markAsRead(data.notificationId)
-  }, []), [])
-
-  useRealTimeEvent('notification:clear', useCallback(() => {
-    clearAllNotifications()
-  }, []), [])
-
   // Add new notification
   const addNotification = useCallback((notification: Notification) => {
     const newNotification = {
@@ -281,6 +268,19 @@ export const RealTimeNotifications = ({
         return 'top-4 right-4'
     }
   }
+
+  // Handle real-time notification events
+  useRealTimeEvent<Notification>('notification:new', useCallback((notification) => {
+    addNotification(notification)
+  }, [addNotification]), [addNotification])
+
+  useRealTimeEvent('notification:read', useCallback((data: { notificationId: string }) => {
+    markAsRead(data.notificationId)
+  }, [markAsRead]), [markAsRead])
+
+  useRealTimeEvent('notification:clear', useCallback(() => {
+    clearAllNotifications()
+  }, [clearAllNotifications]), [clearAllNotifications])
 
   // Visible notifications (respecting maxVisible limit)
   const visibleNotifications = notifications.slice(0, isCollapsed ? 0 : maxVisible)

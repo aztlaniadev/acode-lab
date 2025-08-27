@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import { 
   X, Send, Search, MoreVertical, Phone, Video, Info, 
@@ -93,7 +93,11 @@ export const MessagesModal = ({
   )
 
   const selectedConversationData = conversations.find(c => c.id === selectedConversation)
-  const conversationMessages = selectedConversation ? messages[selectedConversation] || [] : []
+  
+  const conversationMessages = useMemo(() => 
+    selectedConversation ? messages[selectedConversation] || [] : [], 
+    [selectedConversation, messages]
+  )
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -314,7 +318,7 @@ export const MessagesModal = ({
                               <div className="flex gap-1 mt-2">
                                 {message.reactions.map((reaction, index) => (
                                   <span
-                                    key={index}
+                                    key={`${message.id}-reaction-${index}-${reaction.emoji}`}
                                     className="text-xs bg-background/20 px-2 py-1 rounded-full"
                                   >
                                     {reaction.emoji}
