@@ -116,7 +116,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 🆘 Suporte
 
-Se você encontrar algum problema ou tiver dúvidas, por favor abra uma [issue](https://github.com/seu-usuario/acode-lab/issues).
+Se você encontrar algum problema ou tiver dúvidas, por favor abra uma [issue](https://github.com/aztlaniadev/acode-lab/issues).
 
 ---
 
