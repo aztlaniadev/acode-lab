@@ -91,7 +91,7 @@ export function SearchAdvanced({ questions, onSearchResults }: SearchAdvancedPro
       results = results.filter(question =>
         question.title.toLowerCase().includes(query) ||
         question.content.toLowerCase().includes(query) ||
-        question.author.name.toLowerCase().includes(query) ||
+        (question.author.name || question.author.username).toLowerCase().includes(query) ||
         question.tags.some(tag => tag.name.toLowerCase().includes(query))
       )
     }
@@ -114,10 +114,10 @@ export function SearchAdvanced({ questions, onSearchResults }: SearchAdvancedPro
     if (selectedStatus !== 'all') {
       switch (selectedStatus) {
         case 'unanswered':
-          results = results.filter(question => question.answersCount === 0)
+          results = results.filter(question => (question._count?.answers || 0) === 0)
           break
         case 'answered':
-          results = results.filter(question => question.answersCount > 0)
+          results = results.filter(question => (question._count?.answers || 0) > 0)
           break
         case 'solved':
           results = results.filter(question => question.isSolved)
@@ -166,22 +166,22 @@ export function SearchAdvanced({ questions, onSearchResults }: SearchAdvancedPro
         break
       case 'mostVoted':
         results.sort((a, b) => {
-          const aVotes = a.votes.reduce((sum, vote) => sum + vote.value, 0)
-          const bVotes = b.votes.reduce((sum, vote) => sum + vote.value, 0)
+          const aVotes = a.votes?.reduce((sum, vote) => sum + vote.value, 0) || 0
+          const bVotes = b.votes?.reduce((sum, vote) => sum + vote.value, 0) || 0
           return bVotes - aVotes
         })
         break
       case 'mostViewed':
-        results.sort((a, b) => b.viewsCount - a.viewsCount)
+        results.sort((a, b) => b.viewCount - a.viewCount)
         break
       case 'mostAnswered':
-        results.sort((a, b) => b.answersCount - a.answersCount)
+        results.sort((a, b) => (b._count?.answers || 0) - (a._count?.answers || 0))
         break
       case 'trending':
         // Algoritmo simples de trending baseado em votos + respostas + visualizações recentes
         results.sort((a, b) => {
-          const aScore = a.votes.reduce((sum, vote) => sum + vote.value, 0) + a.answersCount * 2 + a.viewsCount * 0.1
-          const bScore = b.votes.reduce((sum, vote) => sum + vote.value, 0) + b.answersCount * 2 + b.viewsCount * 0.1
+          const aScore = (a.votes?.reduce((sum, vote) => sum + vote.value, 0) || 0) + (a._count?.answers || 0) * 2 + a.viewCount * 0.1
+          const bScore = (b.votes?.reduce((sum, vote) => sum + vote.value, 0) || 0) + (b._count?.answers || 0) * 2 + b.viewCount * 0.1
           return bScore - aScore
         })
         break

@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -301,10 +302,12 @@ export default function TwoFAPage() {
                       Escaneie este QR Code com seu app de autenticação
                     </p>
                     <div className="inline-block p-4 bg-white rounded-lg">
-                      <img 
+                      <Image 
                         src={totpData.qr_code} 
                         alt="QR Code 2FA" 
                         className="w-48 h-48"
+                        width={192}
+                        height={192}
                       />
                     </div>
                   </div>

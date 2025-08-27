@@ -1,0 +1,524 @@
+/* Copper Design System - Sistema de Design Premium */
+
+/* Importar fontes premium */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* CSS Custom Properties */
+:root {
+  /* Paleta de Cobre */
+  --copper-50: #fef7f0;
+  --copper-100: #feeee0;
+  --copper-200: #fcd4b6;
+  --copper-300: #f9b885;
+  --copper-400: #f59e4c;
+  --copper-500: #dc7633;
+  --copper-600: #c0622d;
+  --copper-700: #a14d24;
+  --copper-800: #83401e;
+  --copper-900: #6d341a;
+  --copper-950: #3b1a0c;
+  
+  /* Neutros */
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0a0a0a;
+  
+  /* Gradientes */
+  --gradient-copper: linear-gradient(135deg, #dc7633 0%, #f59e4c 50%, #fcd4b6 100%);
+  --gradient-copper-dark: linear-gradient(135deg, #a14d24 0%, #dc7633 50%, #f59e4c 100%);
+  --gradient-elegant: linear-gradient(135deg, #171717 0%, #404040 50%, #dc7633 100%);
+  --gradient-premium: linear-gradient(135deg, #0a0a0a 0%, #262626 25%, #dc7633 75%, #f59e4c 100%);
+  --gradient-subtle: linear-gradient(135deg, #fafafa 0%, #f5f5f5 50%, #feeee0 100%);
+  
+  /* Sombras Premium */
+  --shadow-copper: 0 4px 14px 0 rgba(220, 118, 51, 0.3);
+  --shadow-copper-lg: 0 8px 25px 0 rgba(220, 118, 51, 0.2);
+  --shadow-elegant: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.1);
+  
+  /* Fontes */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', Monaco, monospace;
+}
+
+/* Modo Light */
+.copper-theme.light {
+  --bg-primary: var(--neutral-0);
+  --bg-secondary: var(--neutral-50);
+  --bg-tertiary: var(--neutral-100);
+  --text-primary: var(--neutral-950);
+  --text-secondary: var(--neutral-600);
+  --text-muted: var(--neutral-500);
+  --border: var(--neutral-200);
+  --accent: var(--copper-500);
+  --accent-hover: var(--copper-600);
+}
+
+/* Modo Dark */
+.copper-theme.dark {
+  --bg-primary: var(--neutral-950);
+  --bg-secondary: var(--neutral-900);
+  --bg-tertiary: var(--neutral-800);
+  --text-primary: var(--neutral-0);
+  --text-secondary: var(--neutral-300);
+  --text-muted: var(--neutral-500);
+  --border: var(--neutral-700);
+  --accent: var(--copper-400);
+  --accent-hover: var(--copper-300);
+}
+
+/* Reset e Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+/* Tipografia Premium */
+.heading-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.heading-elegant {
+  font-family: var(--font-display);
+  font-weight: 600;
+  background: var(--gradient-copper);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-copper-gradient {
+  background: var(--gradient-copper);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-elegant-gradient {
+  background: var(--gradient-elegant);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Botões Premium */
+.btn-copper {
+  background: var(--gradient-copper);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-copper);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-copper:hover {
+  box-shadow: var(--shadow-copper-lg);
+  transform: translateY(-2px);
+}
+
+.btn-copper:active {
+  transform: translateY(0);
+}
+
+.btn-copper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-copper:hover::before {
+  left: 100%;
+}
+
+.btn-elegant {
+  background: var(--gradient-elegant);
+  color: white;
+  border: 1px solid var(--copper-500);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-elegant:hover {
+  box-shadow: var(--shadow-elegant);
+  border-color: var(--copper-400);
+}
+
+.btn-outline-copper {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-copper:hover {
+  background: var(--accent);
+  color: white;
+  box-shadow: var(--shadow-copper);
+}
+
+/* Cards Premium */
+.card-premium {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-premium);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-copper);
+}
+
+.card-premium:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-elegant);
+  border-color: var(--copper-300);
+}
+
+.card-elegant {
+  background: var(--gradient-subtle);
+  border: 1px solid var(--copper-200);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-copper);
+  transition: all 0.3s ease;
+}
+
+.card-elegant:hover {
+  box-shadow: var(--shadow-copper-lg);
+  transform: translateY(-2px);
+}
+
+.card-dark {
+  background: var(--neutral-950);
+  color: white;
+  border: 1px solid var(--copper-500);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-elegant);
+}
+
+/* Inputs Premium */
+.input-copper {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.input-copper:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(220, 118, 51, 0.1);
+}
+
+.input-elegant {
+  background: var(--bg-primary);
+  border: 2px solid var(--copper-200);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.input-elegant:focus {
+  outline: none;
+  border-color: var(--copper-500);
+  box-shadow: var(--shadow-copper);
+}
+
+/* Badges Premium */
+.badge-copper {
+  background: var(--gradient-copper);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.badge-elegant {
+  background: var(--neutral-950);
+  color: var(--copper-300);
+  border: 1px solid var(--copper-500);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.badge-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Navegação Premium */
+.nav-premium {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.nav-premium.dark {
+  background: rgba(10, 10, 10, 0.95);
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+  background: var(--bg-secondary);
+}
+
+.nav-link.active {
+  color: var(--accent);
+  background: var(--copper-50);
+}
+
+.nav-link.active.dark {
+  background: var(--copper-900);
+}
+
+/* Animações Premium */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.animate-fade-scale {
+  animation: fadeInScale 0.4s ease-out;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, 
+    var(--bg-secondary) 0%, 
+    var(--copper-100) 50%, 
+    var(--bg-secondary) 100%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Scrollbar Premium */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-copper);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-copper-dark);
+}
+
+/* Seleção de texto */
+::selection {
+  background: var(--copper-200);
+  color: var(--neutral-950);
+}
+
+.dark ::selection {
+  background: var(--copper-700);
+  color: var(--neutral-0);
+}
+
+/* Estados de foco acessíveis */
+.focus-copper:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Utilities Premium */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copper-glow {
+  box-shadow: 0 0 30px rgba(220, 118, 51, 0.3);
+}
+
+.elegant-border {
+  border-image: var(--gradient-copper) 1;
+}
+
+/* Responsive Premium */
+@media (max-width: 768px) {
+  .heading-display {
+    font-size: 2rem;
+  }
+  
+  .card-premium {
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+  
+  .btn-copper {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Estados de carregamento */
+.loading-copper {
+  background: var(--gradient-copper);
+  background-size: 200% 200%;
+  animation: gradientShift 2s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hover effects premium */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-elegant);
+}
+
+.hover-glow:hover {
+  box-shadow: var(--copper-glow);
+}
+
+/* Classes que faltavam */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted-foreground {
+  color: var(--text-muted);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.border-border {
+  border-color: var(--border);
+}

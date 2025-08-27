@@ -1,14 +1,14 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import { Header } from './Header';
-import { StoriesTray } from './StoriesTray';
-import { Feed } from './Feed';
-import { CreatePostModal } from './CreatePostModal';
-import { CommentModal } from './CommentModal';
-import { ShareModal } from './ShareModal';
-import { StoryViewer } from './StoryViewer';
-import { BottomNav } from './BottomNav';
+import { Header } from '@/components/social/Header';
+import { StoriesTray } from '@/components/social/StoriesTray';
+import { Feed } from '@/components/social/Feed';
+import { CreatePostModal } from '@/components/social/CreatePostModal';
+import { CommentModal } from '@/components/social/CommentModal';
+import { ShareModal } from '@/components/social/ShareModal';
+import { StoryViewer } from '@/components/social/StoryViewer';
+import { BottomNav } from '@/components/social/BottomNav';
 import { useSocial } from '@/hooks/useSocial';
 
 export const SocialFeed = () => {
@@ -42,7 +42,7 @@ export const SocialFeed = () => {
   // Adicionar estilos CSS para animações
   useEffect(() => {
     const style = document.createElement('style');
-    style.innerHTML = `
+    style.textContent = `
       @keyframes progress-bar { 
         from { width: 0%; } 
         to { width: 100%; } 

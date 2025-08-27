@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import do Copper Design System */
+@import '../styles/copper-design.css';
+
 @layer base {
   :root {
     /* 🎨 PALETA DE CORES ACODE LAB - PROFISSIONAL E MINIMALISTA */

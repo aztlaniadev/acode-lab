@@ -1,8 +1,5 @@
 import React from 'react'
-import { HeroSection } from '@/components/sections/HeroSection'
-import { FeaturesSection } from '@/components/sections/FeaturesSection'
-import { FreelancerSection } from '@/components/sections/FreelancerSection'
-import { Footer } from '@/components/navigation/Footer'
+import { CopperHeroSection } from '@/components/sections/CopperHeroSection'
 
 /**
  * Página inicial do Acode Lab
@@ -11,10 +8,7 @@ import { Footer } from '@/components/navigation/Footer'
 export default function HomePage() {
   return (
     <main className="min-h-screen">
-      <HeroSection />
-      <FeaturesSection />
-      <FreelancerSection />
-      <Footer />
+      <CopperHeroSection />
     </main>
   )
 }

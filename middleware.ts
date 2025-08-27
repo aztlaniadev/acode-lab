@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { SECURITY_CONFIG, SecurityUtils, SECURITY_ERRORS } from '@/lib/security'
 
-// RATE LIMITING DESABILITADO - Focando apenas no login funcionar
-console.log('🔓 Rate limiting desabilitado no middleware')
+// Rate limiting será habilitado em produção
+if (process.env.NODE_ENV === 'development') {
+  console.log('🔓 Rate limiting desabilitado no middleware')
+}
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -12,7 +14,9 @@ export async function middleware(request: NextRequest) {
   // 1. Verificação de segurança básica (simplificada)
   const riskScore = SecurityUtils.calculateRiskScore(request)
   if (SecurityUtils.shouldBlockRequest(request)) {
-    console.log(`🚨 Requisição bloqueada por segurança - IP: ${SecurityUtils.maskIP(ip)}, Score: ${riskScore}`)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`🚨 Requisição bloqueada por segurança - IP: ${SecurityUtils.maskIP(ip)}, Score: ${riskScore}`)
+    }
     return NextResponse.json(
       { error: SECURITY_ERRORS.HIGH_RISK_REQUEST },
       { status: 403 }
@@ -20,15 +24,21 @@ export async function middleware(request: NextRequest) {
   }
 
   // 2. RATE LIMITING DESABILITADO - Focando apenas no login funcionar
-  console.log(`🔓 Middleware: ${pathname} - IP: ${SecurityUtils.maskIP(ip)} - Rate limiting desabilitado`)
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`🔓 Middleware: ${pathname} - IP: ${SecurityUtils.maskIP(ip)} - Rate limiting desabilitado`)
+  }
 
   // 3. Login sempre permitido (sem rate limiting)
   if (pathname === '/api/auth/callback/credentials') {
-    console.log('🔐 Login permitido pelo middleware (sem rate limiting)');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔐 Login permitido pelo middleware (sem rate limiting)');
+    }
   }
 
   // 4. Rate limiting desabilitado para todas as rotas
-  console.log(`🔓 Rate limiting desabilitado para: ${pathname}`)
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`🔓 Rate limiting desabilitado para: ${pathname}`)
+  }
 
   // 6. Headers de segurança
   const response = NextResponse.next()

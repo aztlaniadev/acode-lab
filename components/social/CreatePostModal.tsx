@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from 'react';
-import { X, Image, Video, FileText, Smile } from 'lucide-react';
+import { X, Image as ImageIcon, Video, FileText, Smile } from 'lucide-react';
 import { CreatePostData } from '@/types/social';
 
 interface CreatePostModalProps {
@@ -90,7 +90,7 @@ export const CreatePostModal = ({ isOpen, onClose, onCreatePost }: CreatePostMod
                   : 'border-border text-muted-foreground hover:border-border/50'
               }`}
             >
-              <Image className="h-5 w-5" />
+              <ImageIcon className="h-5 w-5" />
               <span className="font-medium">Foto</span>
             </button>
             <button
@@ -121,7 +121,7 @@ export const CreatePostModal = ({ isOpen, onClose, onCreatePost }: CreatePostMod
               <div className="space-y-2">
                 <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
                   {postType === 'photo' ? (
-                    <Image className="h-8 w-8 text-primary" />
+                    <ImageIcon className="h-8 w-8 text-primary" />
                   ) : (
                     <Video className="h-8 w-8 text-primary" />
                   )}
@@ -135,7 +135,7 @@ export const CreatePostModal = ({ isOpen, onClose, onCreatePost }: CreatePostMod
               <div className="space-y-2">
                 <div className="w-16 h-16 bg-muted/50 rounded-2xl flex items-center justify-center mx-auto">
                   {postType === 'photo' ? (
-                    <Image className="h-8 w-8 text-muted-foreground" />
+                    <ImageIcon className="h-8 w-8 text-muted-foreground" />
                   ) : (
                     <Video className="h-8 w-8 text-muted-foreground" />
                   )}

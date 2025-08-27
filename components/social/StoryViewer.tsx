@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { X } from 'lucide-react';
 import { User } from '@/types/social';
 
@@ -18,13 +19,13 @@ export const StoryViewer = ({ user, onClose, onNextUser, onPrevUser }: StoryView
     setCurrentIndex(0);
   }, [user]);
 
-  const goToNextStory = () => {
+  const goToNextStory = useCallback(() => {
     if (user && currentIndex < user.stories.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
       onNextUser();
     }
-  };
+  }, [user, currentIndex, onNextUser]);
 
   const goToPrevStory = () => {
     if (currentIndex > 0) {
@@ -38,7 +39,7 @@ export const StoryViewer = ({ user, onClose, onNextUser, onPrevUser }: StoryView
     if (isPaused || !user) return;
     const timer = setTimeout(goToNextStory, STORY_DURATION);
     return () => clearTimeout(timer);
-  }, [currentIndex, user, isPaused]);
+  }, [currentIndex, user, isPaused, goToNextStory]);
   
   const handleInteractionStart = () => setIsPaused(true);
   const handleInteractionEnd = () => setIsPaused(false);
@@ -56,10 +57,11 @@ export const StoryViewer = ({ user, onClose, onNextUser, onPrevUser }: StoryView
       onTouchEnd={handleInteractionEnd}
     >
       <div className="relative w-full h-full max-w-md mx-auto">
-        <img 
+        <Image 
           src={user.stories[currentIndex].url} 
           className="w-full h-full object-cover" 
-          alt={`Story by ${user.username}`} 
+          alt={`Story by ${user.username}`}
+          fill
         />
         
         {/* Progress bars */}
@@ -81,10 +83,12 @@ export const StoryViewer = ({ user, onClose, onNextUser, onPrevUser }: StoryView
           
           {/* Header do story */}
           <div className="flex items-center mt-3">
-            <img 
+            <Image 
               src={user.avatar} 
               className="w-8 h-8 rounded-full" 
-              alt={user.username} 
+              alt={user.username}
+              width={32}
+              height={32}
             />
             <p className="text-white font-semibold text-sm ml-2">{user.username}</p>
             <button 
